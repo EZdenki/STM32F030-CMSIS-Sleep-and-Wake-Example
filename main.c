@@ -39,7 +39,7 @@
 //        GND -- [Button 1] ---'----- PA0 │6       15│ GND -- GND
 //        GND -- [Button 2] --------- PA1 │7       14│ PB1
 //        GND -- [Button 3] --------- PA2 │8       13│ PA7
-//        GND -- [LED 3] --- [1K] --- PA3 │9       12│ PA6
+//        GND -- [LED 1] --- [1K] --- PA3 │9       12│ PA6
 //        GND -- [LED 2] --- [1K] --- PA4 │10      11│ PA5 -- [1K] -- [LED 3] -- GND
 //                                        ╰──────────╯
 //
@@ -87,7 +87,7 @@
 //      SCB->SCR     |= SCB_SCR_SLEEPDEEP_Msk;      // Set SLEEPDEEP bit
 //      PWR->CR      |= PWR_CR_PDDS | PWR_CR_LPDS;  // Set Standby mode
 //
-//    Exit Standby Mode -- Any of the following can be used to wake from standby-sleep:
+//    Wake from Standby Mode -- Any of the following can be used to wake from standby-sleep:
 //      1. Grounding NRST pin.
 //      2. Rising edge of WKUP1 (PA0) pin:
 //           PWR->CSR |= PWR_CSR_EWUP1;  // Enable wake-up on WKUP1 (PA0)
@@ -105,7 +105,7 @@
 //      SCB->SCR     |= SCB_SCR_SLEEPDEEP_Msk;  // Set SLEEPDEEP bit
 //      PWR->CR      |= PWR_CR_LPDS ;           // Put voltage regulater in low power mode
 //  
-//    Exit Stop Mode:
+//    Wake from Stop Mode:
 //      Will wake from the stop mode via any active EXTI line interrupt event.
 //
 //  __SLEEP_MODE
@@ -116,7 +116,7 @@
 //    Enter Sleep Mode:
 //      RCC->APB1ENR |= RCC_APB1ENR_PWREN;      // Enable PWR control clock
 //
-//    Exit Sleep Mode:
+//    Wake from Sleep Mode:
 //      Pretty much any interrupt event, will wake the chip up from sleep mode.
 //
 //  ------------------------------------------------------------------------------------------

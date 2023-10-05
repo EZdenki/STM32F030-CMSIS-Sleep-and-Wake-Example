@@ -73,4 +73,6 @@ the upload is complete.
 + **Wake from Sleep Mode:** <br>
   Pretty much any interrupt event, will wake the chip up from sleep mode.
 <br>
+
 ### See ```main.c``` for additional details
+

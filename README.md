@@ -1,6 +1,8 @@
-# STM32F030-CMSIS-Basic-Interrupts
-Examples of how to set up basic interrupt routines including triggers based on button presses,
-timer overflow, or the SysTick (system clock).
+# STM32F030 CMSIS Sleep and Wake Example
+Demonstrates how to enter and wake from various sleep modes of the STM32F030 microprocessor using CMSIS directives (no HAL).
+
+# Note: The code is up-to-date, but this README file is only a template!
+
 
 ## Interrupt Types
 The following types of interrupts are defined. They can be enabled or disabled by commenting

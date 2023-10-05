@@ -32,7 +32,7 @@ then proceed with the upload (while keeping the Boot pin high.) Release the Boot
 the upload is complete.
 
 ## Summary of Sleep Modes
-+ STANDBY MODE<br>
++ ### **STANDBY MODE**
   + Consumes less that 10 uA while asleep.<br>
   + Standby Mode halts all functionality and provides the lowest sleep power requirement.<br>
   + Note that upon waking up, the chip is basically in a reset state.<br>

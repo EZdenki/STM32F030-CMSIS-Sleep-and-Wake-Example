@@ -72,7 +72,24 @@ the upload is complete.
   ```
 + **Wake from Sleep Mode:** <br>
   Pretty much any interrupt event, will wake the chip up from sleep mode.
-<br>
+
+## To Put the Chip to Sleep after the Desired Sleep Mode is Set Up:
+The following describes how to set up and wake from the various sleep modes. After the
+sleep mode is set up, enter the sleep mode by executing the following:
+```
+PWR->CR |= PWR_CR_CWUF;   // Clear wake-up flag
+__WFI();                  // Go to sleep
+```
+If all of the processing is handled via interrupt handlers, then the above would be in
+an endless loop in ```main()``` as:
+```
+while( 1 )
+{
+  PWR->CR |= PWR_CR_CWUF;   // Clear wake-up flag
+  __WFI();                  // Go to sleep
+}
+```
+By doing so, the chip would be put into sleep, woken up by some event, then the event would be processed
+in the event handler, and then immediately return back to sleep.
 
 ### See ```main.c``` for additional details
-

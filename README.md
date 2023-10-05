@@ -36,14 +36,13 @@ the upload is complete.
   + Consumes less that 10 uA while asleep.<br>
   + Standby Mode halts all functionality and provides the lowest sleep power requirement.<br>
   + Note that upon waking up, the chip is basically in a reset state.<br>
-+ **Set up Standby Mode:** <br>
-
++ **Set up Standby Mode:**
   ```
   RCC->APB1ENR |= RCC_APB1ENR_PWREN;          // Enable PWR control clock
   SCB->SCR     |= SCB_SCR_SLEEPDEEP_Msk;      // Set SLEEPDEEP bit
   PWR->CR      |= PWR_CR_PDDS | PWR_CR_LPDS;  // Set Standby mode
   ```
-+ **Exit Standby Mode:** Any of the following can be used to wake from standby-sleep:<br>
++ **Wake from Standby Mode:** Any of the following can be used to wake from standby-sleep:<br>
   + Ground the NRST pin (press the RESET button)
   + A rising edge of WKUP1 (PA0) pin
     WKUP1 is enabled by adding the following code to the above set up code:
@@ -53,5 +52,25 @@ the upload is complete.
     Note that if the WKUP pin is enabled as above, then the pin is forced into input mode with a
     built-in pulldown. so the pin must be brought up to VCC to wake the chip.
   + RTC Interrupt (Not available on this chip variant).
-
++ ### **STOP MODE**
+  + Consumes approx. 230 uA (at 3.3 V) down to 15 uA (at 2.0 V) while asleep.
+  + Standby Mode halts 1.8V domain clocks and HSI/HSE oscillators.
++ **Set Up Stop Mode:** <br>
+  ```
+  RCC->APB1ENR |= RCC_APB1ENR_PWREN;      // Enable PWR control clock
+  SCB->SCR     |= SCB_SCR_SLEEPDEEP_Msk;  // Set SLEEPDEEP bit
+  PWR->CR      |= PWR_CR_LPDS ;           // Put voltage regulater in low power mode
+  ```
++ **Wake from Stop Mode:** <br>
+  Any EXTI line interrupt event will wake the chip from the stop mode. Used this mode to wake from button presses.
++ ### **SLEEP MODE**
+  + Consumes approx. 1.1 mA while asleep.
+  + This mode saves the least amount of power (approx. 40%) but can be woken up by **any** interrupt event
++ ** Set up Sleep Mode: **<br>
+  ```
+  RCC->APB1ENR |= RCC_APB1ENR_PWREN;      // Enable PWR control clock
+  ```
++ **Wake from Sleep Mode:** <br>
+  Pretty much any interrupt event, will wake the chip up from sleep mode.
+<br>
 ### See ```main.c``` for additional details

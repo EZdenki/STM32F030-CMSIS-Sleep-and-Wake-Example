@@ -21,5 +21,14 @@ Waking up uses interrupts, which were described in detail in the following repos
     GND ── [LED 2] ── [1K] ─── PA4 │10      11│ PA5 ── [1K] ── [LED 3] ── GND
                                    ╰──────────╯
 ```
+### IMPORTANT:
+While experimenting, the chip may be forced into a sleep state such that it cannot be
+detected by the ST-LINK programmer. In such cases, press and hold down the reset button
+(i.e. ground the reset pin), initiate the program upload. When the upload pauses because
+the reset button is pressed, release the reset button to allow the program to upload.<br>
+While in Standby mode, it may be difficult to upload even by pressing the reset button. 
+In such cases, hold the Boot pin (pin 1) high (VCC), then press the Reset button, and
+then proceed with the upload (while keeping the Boot pin high.) Release the Boot pin after
+the upload is complete.
 
 ### See ```main.c``` for additional details

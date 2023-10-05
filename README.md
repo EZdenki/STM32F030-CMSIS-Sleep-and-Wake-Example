@@ -1,30 +1,8 @@
 # STM32F030 CMSIS Sleep and Wake Example
-Demonstrates how to enter and wake from various sleep modes of the STM32F030 microprocessor using CMSIS directives (no HAL).
-
-# Note: The code is up-to-date, but this README file is only a template!
-
-
-## Interrupt Types
-The following types of interrupts are defined. They can be enabled or disabled by commenting
-out the relevant #define statements near the top of ```main.c```. Multiple interrupts may be set up simultaneously.
-
-* __BUTTON_INTERRUPT:<br>
-  Interrupt generated on the rising edge of PA0 and PA1. Pressing and releasing the button
-  on PA0 will cause EXTI0_1_IRQHandler to be called and will turn ON the LED attached to
-  PF0. Likewise, pressing and releasing the button on PA1 will cause EXTI0_1_IRQHandler
-  to be called and will turn OFF the LED.
-  Note that EXTI0 and EXTI1 both result in a call to the same interrupt handler. The code
-  inside the handler must determine which line actually caused the interrupt by checking
-  the EXTI->PR register for the PR0 bit (for PA0) or PR1 bit (for PA1).
-
-* __TIMER_INTERRUPT<br>
-  Interrupt generated each time that TIM14 overflows.
-
-* __SYSTICK_INTERRUPT
-  Interrupt generated each time that x clock cycles have occurred, where x is a 24-bit
-  number initialized in the SysTick_Config( x ) procedure. On an 8 MHz clock, the
-  slowest time between calls to the interrupt handler is approx. 2 seconds when using a
-  value of (uint32_t)16E6 for x.
+Demonstrates how to enter and wake from various sleep modes of the STM32F030 microprocessor using CMSIS directives (no HAL).<br>
+<br>
+Waking up uses interrupts, which were described in detail in the following repository:<br>
+[STM32F030 CMSIS Basic Interrupts](https://github.com/EZdenki/STM32F030-CMSIS-Basic-Interrupts)<br>
 
 ## Hardware Setup
 ```

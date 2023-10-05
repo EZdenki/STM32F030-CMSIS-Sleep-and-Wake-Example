@@ -67,7 +67,7 @@
 //    __WFI();                  // Go to sleep
 //
 //  If all of the processing is handled via interrupt handlers, then the above would be in
-//  and endless loop as:
+//  an endless loop as:
 //      while( 1 )
 //      {
 //        PWR->CR |= PWR_CR_CWUF;   // Clear wake-up flag

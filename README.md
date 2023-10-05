@@ -66,7 +66,7 @@ the upload is complete.
 + ### **SLEEP MODE**
   + Consumes approx. 1.1 mA while asleep.
   + This mode saves the least amount of power (approx. 40%) but can be woken up by **any** interrupt event
-+ ** Set up Sleep Mode: **<br>
++ **Set up Sleep Mode:** <br>
   ```
   RCC->APB1ENR |= RCC_APB1ENR_PWREN;      // Enable PWR control clock
   ```

@@ -16,6 +16,7 @@
 //  Released under the MIT License
 //  Copyright (c) 2023
 //  Mike Shegedin, EZdenki.com
+//  Version 1.1    8 Oct 2023    Updated button interrupt logic, removed delays
 //  Version 1.0    5 Oct 2023    Updated PCB diagram, code and comments
 //  Version 0.9   26 Aug 2023    Started
 //  ------------------------------------------------------------------------------------------
@@ -124,8 +125,8 @@
 //  Choose the sleep mode by uncommenting the desired mode.
 
 // #define __STANDBY_MODE
-// #define __STOP_MODE
- #define __SLEEP_MODE
+ #define __STOP_MODE
+// #define __SLEEP_MODE
 
 
 //  ==========================================================================================
@@ -155,8 +156,8 @@
 //    interrupt handler is approx. 2 seconds when using a value of (uint32_t)16E6 for x.
 //  ==========================================================================================
 
-// #define __BUTTON_INTERRUPT
- #define __TIMER_INTERRUPT
+ #define __BUTTON_INTERRUPT
+// #define __TIMER_INTERRUPT
 // #define __SYSTICK_INTERRUPT
 
 
@@ -178,18 +179,18 @@ EXTI0_1_IRQHandler( void )
   if( EXTI->PR & EXTI_PR_PR0 )      // If detected rising edge on PA0:
   {
     GPIOA->ODR |= GPIO_ODR_3 | GPIO_ODR_4 | GPIO_ODR_5;       // Turn ON PA3 LED
-    for( uint32_t x = 0; x<65000; x++ );
-    while( GPIOA->ODR & GPIO_IDR_0 ) ;
-    for(uint32_t x=0; x<(uint32_t)2e6; x++) ; // Pause approx 3 s
+    for( uint32_t x = 0; x<33000; x++ );
+    while( !(GPIOA->IDR & GPIO_IDR_0 )) ;
+    //  for(uint32_t x=0; x<(uint32_t)2e6; x++) ; // Pause approx 3 s
     EXTI->PR |= EXTI_PR_PR0;        // Clear the interrupt by *setting* the Pending Reg. bit
   }
   else
     if( EXTI->PR & EXTI_PR_PR1 )    // If rising edge detected on PA1:
     {
       GPIOA->ODR &= ~(GPIO_ODR_3 | GPIO_ODR_4 | GPIO_ODR_5);    // Turn OFF PA3 LED
-      for( uint32_t x = 0; x<65000; x++ );
-      while( GPIOA->ODR & GPIO_IDR_1 ) ;
-      for(uint32_t x=0; x<(uint32_t)2e6; x++) ; // Pause approx 3 s
+      for( uint32_t x = 0; x<33000; x++ );
+      while( !(GPIOA->IDR & GPIO_IDR_1) ) ;
+      // for(uint32_t x=0; x<(uint32_t)2e6; x++) ; // Pause approx 3 s
       EXTI->PR |= EXTI_PR_PR1;      // Clear the interrupt by *setting* the Pending Reg. bit
     }
 
@@ -210,9 +211,9 @@ EXTI2_3_IRQHandler( void )
 //  if( EXTI->PR & EXTI_PR_PR2 )    // If detected rising edge on PA2: (Not needed since
   {                                 // line 3 / PA3 is not used here.)  
     GPIOA->ODR ^= (GPIO_ODR_3 | GPIO_ODR_4 | GPIO_ODR_5);       // Toggle PA3 LED
-    for( uint32_t x = 0; x<100000; x++ );
+    for( uint32_t x = 0; x<33000; x++ );
     while( !(GPIOA->IDR & GPIO_IDR_2) ) ;
-    for(uint32_t x=0; x<(uint32_t)2e6; x++) ; // Pause approx 3 s
+    // for(uint32_t x=0; x<(uint32_t)2e6; x++) ; // Pause approx 3 s
     EXTI->PR |= EXTI_PR_PR2;        // Clear the interrupt by *setting* the Pending Reg. bit
   }
 }
@@ -331,7 +332,7 @@ main( void )
   NVIC_SetPriority( EXTI0_1_IRQn, 1 );  // Set the priority to 1. (0 = highest)
 
   NVIC_EnableIRQ( EXTI2_3_IRQn );       // Enable this interrupt for lines 2 and 3
-  NVIC_SetPriority( EXTI2_3_IRQn, 0 );  // Set the desired priority (0 = highest)
+  NVIC_SetPriority( EXTI2_3_IRQn, 1 );  // Set the desired priority (0 = highest)
 #endif // __BUTTON_INTERRUPT
 
 
@@ -421,7 +422,6 @@ RCC->APB1ENR |= RCC_APB1ENR_PWREN;          // Enable PWR control clock
   while( 1 )
   {
     PWR->CR |= PWR_CR_CWUF;   // Clear wake-up flag
-  TIM14->SR &= ~TIM_SR_UIF;                 // Clear timer interrupt flag
     __WFI();                  // Go to sleep
   }
 
